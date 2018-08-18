@@ -1,0 +1,6 @@
+detox
+flake8
+pytest
+tox
+watchdog
+-r requirements.txt

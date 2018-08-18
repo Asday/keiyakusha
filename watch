@@ -1,0 +1,13 @@
+#!/bin/sh
+
+clear
+
+bash ./do_watch.sh
+
+echo "Watching for python file changes..."
+
+watchmedo shell-command \
+  --patterns="*.py" \
+  --recursive \
+  --drop \
+  --command="clear; bash ./do_watch.sh; echo \"Watching for python file changes...\""
