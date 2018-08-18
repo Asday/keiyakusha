@@ -23,8 +23,9 @@ class Engagement(models.Model):
 
     def __str__(self):
         return (
-            f'With {self.client} from {self.start} for {self.duration}'
-            f' at {self.currency} {self.rate}/h, for'
+            f'{self.user.get_full_name()} with {self.client} from'
+            f' {self.start} until {self.duration + self.start} at'
+            f' {self.currency} {self.rate}/h, for'
             f' {self.time_per_week}/w, billed every'
             f' {self.invoice_period_days} days'
         )

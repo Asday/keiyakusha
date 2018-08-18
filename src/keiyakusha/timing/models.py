@@ -28,7 +28,7 @@ class TimeEntry(models.Model):
         verbose_name_plural = 'time entries'
 
     def __str__(self):
-        return f'{self.task} {self.rendered_note}'
+        return f'{self.duration} on {self.task} {self.rendered_note}'
 
     @property
     def rendered_note(self):
