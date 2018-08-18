@@ -1,5 +1,5 @@
-import keiyakusha  # noqa
+from config.settings import DEBUG
 
 
-def test_nothing():
-    assert 1 == 1
+def test_django_is_setup():
+    assert DEBUG
