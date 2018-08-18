@@ -35,5 +35,6 @@ setup(
     ],
     install_requires=[
         'django==2.1',
+        'unicode-slugify==0.1.3',
     ],
 )
