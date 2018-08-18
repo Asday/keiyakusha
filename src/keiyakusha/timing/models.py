@@ -24,6 +24,9 @@ class TimeEntry(models.Model):
         related_name='time_entries',
     )
 
+    class Meta:
+        verbose_name_plural = 'time entries'
+
     def __str__(self):
         return f'{self.task} {self.rendered_note}'
 
