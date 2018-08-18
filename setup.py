@@ -9,7 +9,10 @@ setup(
     name='keiyakusha',
     version='0.0.0',
     license='MIT',
-    description='Time tracking, account management, and invoice generation tool for contracting.',
+    description=(
+        'Time tracking, account management, and invoice generation tool'
+        ' for contracting.'
+    ),
     long_description='',
     author='Adam Barnes',
     author_email='sara.and.zuka@gmail.com',
