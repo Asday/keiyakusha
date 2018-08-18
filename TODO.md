@@ -21,7 +21,8 @@
     * [ ] Shows current over-under charge amount
     * [ ] Rounds hours on an invoice up or down depending on what will result in the lowest under-overcharge disparity
       * [ ] Favour over-charging?  By what ratio?  It'll never be more than an hour out in any case.
-  * [ ] Create invoices early and be able to see "invoices in progress"?  Or create invoices on demand?
+  * Create invoices early and be able to see "invoices in progress"?  Or create invoices on demand?
+    * Probably on demand.
 * [ ] Account management
   * [ ] Link payments in the real life bank account to invoices sent
 * [ ] Data/display app separation?
