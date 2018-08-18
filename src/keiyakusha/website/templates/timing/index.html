@@ -6,8 +6,16 @@
   <article class="container">
     <h1>Timing</h1>
 
-    <section>
-      <p>TODO:  Everything.</p>
+    <section class="row">
+      {% include 'timing/partials/current_timers.html' %}
+    </section>
+
+    <section class="row">
+      {% include 'timing/partials/add_time.html' %}
+    </section>
+
+    <section class="row">
+      {% include 'timing/partials/time_list.html' %}
     </section>
   </article>
 {% endblock %}

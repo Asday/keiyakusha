@@ -1,0 +1,13 @@
+<section
+  class="card {% block extra_classes %}{% endblock %}"
+  style="height: 100%;" {# Seems gross? #}
+>
+  <h2 class="card-header">{{ title|title }}</h2>
+  <section class="card-body">
+    {% block timer_body %}
+      <h3 class="card-title">{{ data.duration }}</h3>
+
+      <p>{{ data.render_totals }}</p>
+    {% endblock %}
+  </section>
+</section>

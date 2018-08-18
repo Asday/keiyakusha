@@ -1,0 +1,23 @@
+{% extends 'timing/partials/base_timer.html' %}
+
+{% block extra_classes %}{% endblock %}
+
+{% block timer_body %}
+  {% if data %}
+    {{ block.super }}
+
+    <form method="POST">
+      {% csrf_token %}
+
+      <button
+        class="btn btn-primary btn-block"
+        name="finish_task"
+        type="submit"
+      >
+        Finish Task
+      </button>
+    </form>
+  {% else %}
+    <p>No task currently running</p>
+  {% endif %}
+{% endblock %}
