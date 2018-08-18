@@ -3,7 +3,7 @@ from django.db import models
 
 class TimeEntry(models.Model):
     start = models.DateTimeField()
-    duration = models.DurationField()
+    duration = models.DurationField(blank=True, null=True)
     note = models.CharField(max_length=255, blank=True)
 
     task = models.ForeignKey(
