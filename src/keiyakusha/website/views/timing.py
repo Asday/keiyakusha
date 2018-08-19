@@ -40,7 +40,8 @@ class Total(object):
     currency = attr.ib()
 
 
-class TimingView(TemplateView):
+# TODO: Should this subclass `ListView` instead?
+class TimingView(LoginRequiredMixin, TemplateView):
     template_name = 'timing/index.html'
 
     def get_uninvoiced_data(self):
