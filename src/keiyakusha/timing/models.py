@@ -184,3 +184,16 @@ class TimeEntry(models.Model):
 
     def as_data(self):
         return TimerData.from_instance(self)
+
+    @property
+    def start_date(self):
+        return self.start.date()
+
+    @property
+    def start_time(self):
+        return self.start.time()
+
+    @property
+    def end_time(self):
+        # TODO: Test.
+        return (self.start + self.duration).time()
