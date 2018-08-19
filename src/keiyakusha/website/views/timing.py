@@ -1,28 +1,28 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.views.generic import TemplateView
+from django.views.generic import ListView
 
 from timing.models import TimeEntry
 
 
-# TODO: Should this subclass `ListView` instead?
-class TimingView(LoginRequiredMixin, TemplateView):
-    template_name = 'timing/index.html'
+class TimingView(LoginRequiredMixin, ListView):
+    model = TimeEntry
+    context_object_name = 'time_entries'
+
+    def get_queryset(self):
+        return self.model.objects.filter(engagement__user=self.request.user)
 
     def get_uninvoiced_data(self):
-        return TimeEntry.objects \
-            .filter(engagement__user=self.request.user) \
+        return self.object_list \
             .uninvoiced() \
             .data()
 
     def get_this_week_data(self):
-        return TimeEntry.objects \
-            .filter(engagement__user=self.request.user) \
+        return self.object_list \
             .from_this_week() \
             .data()
 
     def get_today_data(self):
-        return TimeEntry.objects \
-            .filter(engagement__user=self.request.user) \
+        return self.object_list \
             .from_today() \
             .data()
 
