@@ -2,6 +2,7 @@ from collections import defaultdict
 from datetime import timedelta
 from decimal import Decimal
 
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import TemplateView
 
 import attr
