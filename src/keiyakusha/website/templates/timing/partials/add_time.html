@@ -1,1 +1,11 @@
-<p class="col">TODO: Add time form</p>
+<form method="post" class="col">
+  {% csrf_token %}
+
+  <p class="col">
+    TODO: Form.
+  </p>
+
+  <button type="submit" name="add_time" class="btn btn-primary btn-block">
+    Add Time
+  </button>
+</form>
