@@ -35,6 +35,7 @@ setup(
     ],
     install_requires=[
         'django==2.1',
+        'django_tables2==2.0.0a5',
         'django-widget-tweaks==1.4.2',
         'unicode-slugify==0.1.3',
     ],
