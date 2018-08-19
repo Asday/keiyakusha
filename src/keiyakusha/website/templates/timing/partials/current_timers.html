@@ -1,22 +1,22 @@
-<section class="col-3">
+<section class="col-xl-3">
   {% with title='uninvoiced' data=view.get_uninvoiced_data %}
     {% include 'timing/partials/timer.html' %}
   {% endwith %}
 </section>
 
-<section class="col-3">
+<section class="col-xl-3">
   {% with title='this week' data=view.get_this_week_data %}
     {% include 'timing/partials/timer.html' %}
   {% endwith %}
 </section>
 
-<section class="col-3">
+<section class="col-xl-3">
   {% with title='today' data=view.get_today_data %}
     {% include 'timing/partials/timer.html' %}
   {% endwith %}
 </section>
 
-<section class="col-3">
+<section class="col-xl-3">
   {% with title='current task' data=view.get_current_task_data %}
     {% include 'timing/partials/current_task_timer.html' %}
   {% endwith %}
