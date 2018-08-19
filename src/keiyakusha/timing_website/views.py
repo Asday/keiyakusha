@@ -1,10 +1,14 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.views.generic import ListView
+from django.core.exceptions import ImproperlyConfigured
+from django.http import HttpResponseRedirect
+from django.urls import reverse_lazy
+from django.views.generic import FormView, ListView
 
 from django_tables2 import RequestConfig
 
 from timing.models import TimeEntry
 
+from .forms import AddTimeForm, FinishCurrentTaskForm
 from .tables import TimeEntryTable
 
 
@@ -18,6 +22,23 @@ class TimingView(LoginRequiredMixin, ListView):
         table = TimeEntryTable(self.object_list.order_by('-start'))
         RequestConfig(self.request).configure(table)
         context['table'] = table
+
+        add_time_form_data = self.request.session.pop('add_time_form_data', {})
+        add_time_form = AddTimeForm(
+            user=self.request.user,
+            **add_time_form_data,
+        )
+        context['add_time_form'] = add_time_form
+
+        finish_current_task_form_data = self.request.session.pop(
+            'finish_current_task_form_data',
+            {},
+        )
+        finish_current_task_form = FinishCurrentTaskForm(
+            user=self.request.user,
+            **finish_current_task_form_data,
+        )
+        context['finish_current_task_form'] = finish_current_task_form
 
         return context
 
@@ -43,3 +64,62 @@ class TimingView(LoginRequiredMixin, ListView):
         current_task = TimeEntry.objects.current_task(self.request.user)
 
         return current_task and current_task.as_data()
+
+
+class SurrogateFormView(FormView):
+    session_key = None
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+        self.http_method_names = [
+            http_method_name for http_method_name in self.http_method_names
+            if http_method_name != 'get'
+        ]
+
+    def form_invalid(self, form):
+        self.request.session[self.get_session_key()] = form.data
+
+        return HttpResponseRedirect(self.get_success_url())
+
+    def get_session_key(self):
+        if not self.session_key:
+            raise ImproperlyConfigured('No session key provided.')
+
+        return self.session_key
+
+
+class AddTimeFormView(LoginRequiredMixin, SurrogateFormView):
+    form_class = AddTimeForm
+    success_url = reverse_lazy('timing_website:timing_view')
+    session_key = 'add_time_form_data'
+
+    def form_valid(self, form):
+        form.save()
+
+        return super().form_valid(form)
+
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
+
+        kwargs['user'] = self.request.user
+
+        return kwargs
+
+
+class FinishCurrentTaskFormView(LoginRequiredMixin, SurrogateFormView):
+    form_class = FinishCurrentTaskForm
+    success_url = reverse_lazy('timing_website:timing_view')
+    session_key = 'finish_current_task_form_data'
+
+    def form_valid(self, form):
+        form.save()
+
+        return super().form_valid(form)
+
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
+
+        kwargs['user'] = self.request.user
+
+        return kwargs

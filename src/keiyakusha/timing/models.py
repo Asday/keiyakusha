@@ -197,3 +197,12 @@ class TimeEntry(models.Model):
     def end_time(self):
         # TODO: Test.
         return (self.start + self.duration).time()
+
+    def finish(self, commit=True):
+        if self.duration:
+            raise ValueError('This time entry is already finished.')
+
+        self.duration = timezone.now() - self.start
+
+        if commit:
+            self.save()

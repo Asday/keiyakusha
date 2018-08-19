@@ -129,7 +129,7 @@ for namespace, members in _namespaced_password_validators.items():
 
 LANGUAGE_CODE = 'en-gb'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Europe/London'
 
 USE_I18N = True
 

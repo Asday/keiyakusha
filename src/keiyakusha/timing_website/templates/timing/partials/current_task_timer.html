@@ -6,14 +6,10 @@
   {% if data %}
     {{ block.super }}
 
-    <form method="POST">
+    <form method="POST" action="{{ finish_current_task_form.action }}">
       {% csrf_token %}
 
-      <button
-        class="btn btn-primary btn-block"
-        name="finish_task"
-        type="submit"
-      >
+      <button class="btn btn-primary btn-block" type="submit">
         Finish Task
       </button>
     </form>
