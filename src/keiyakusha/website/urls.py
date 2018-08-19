@@ -1,8 +1,6 @@
-from django.urls import path
-
-from .views.timing import TimingView
+from django.urls import include, path
 
 
 urlpatterns = [
-    path('timing/', TimingView.as_view())
+    path('timing/', include('timing_website.urls'))
 ]
