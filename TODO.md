@@ -6,14 +6,15 @@
     * [ ] Start time can be set to "now" with a button
     * [ ] Times can be entered as a 4 digit number and interpreted sensibly
       * [ ] Do what I _mean_ damnit
-  * [ ] Can get the currently running time entry from the Manager
+  * [x] Can get the currently running time entry from the Manager
   * [ ] Button to sign off the current time entry
   * [ ] Running totals shown
-    * [ ] Current invoice period
-    * [ ] Current week
+    * [x] Current invoice period
+    * [x] Current week
     * [ ] Current "day"
       * [ ] Non-naiive definition of "day", working over the midnight barrier doesn't definitely mean a new day
-    * [ ] Currently running entry if there is one
+        * [x] First just have a naiive "day" definition
+    * [x] Currently running entry if there is one
   * [ ] Toggl export
 * [ ] Invoice generation
   * [ ] Generates a PDF
@@ -25,4 +26,4 @@
     * Probably on demand.
 * [ ] Account management
   * [ ] Link payments in the real life bank account to invoices sent
-* [ ] Data/display app separation?
+* Data/display app separation?
