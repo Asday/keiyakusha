@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'engagements',
     'invoices',
     'timing',
+    'users',
     'website',
 ]
 
