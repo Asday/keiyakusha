@@ -1,6 +1,10 @@
-from django.contrib.admin import site
+from django.contrib.admin import ModelAdmin, site
 
 from .models import TimeEntry
 
 
-site.register(TimeEntry)
+class TimeEntryAdmin(ModelAdmin):
+    save_as = True
+
+
+site.register(TimeEntry, TimeEntryAdmin)
