@@ -6,6 +6,7 @@ from django.urls import reverse_lazy
 from django.utils import timezone
 from django.utils.functional import cached_property
 
+from clients.models import Client, Project, Task
 from timing.models import TimeEntry
 
 
@@ -74,22 +75,55 @@ class NiceDateTimeField(forms.fields.BaseTemporalField):
         return candidate
 
 
-# TODO: Implement properly.
-class AddTimeForm(forms.ModelForm):
+# This is going to be the big bad boy form for basically the entire
+# time tracking portion of this project.
+class AddTimeForm(forms.Form):
     action = reverse_lazy('timing_website:add_time_form_view')
 
-    class Meta:
-        model = TimeEntry
-        fields = (
-            'start',
-            'task',
-            'note',
-        )
+    start = NiceDateTimeField()
+    end = NiceDateTimeField(required=False)
+    task = forms.CharField(
+        max_length=Task._meta.get_field('external_reference').max_length,
+    )
+    note = forms.CharField(
+        max_length=TimeEntry._meta.get_field('note').max_length,
+        required=False,
+    )
+    project = forms.CharField(
+        max_length=Project._meta.get_field('name').max_length,
+    )
+    client = forms.CharField(
+        max_length=Client._meta.get_field('name').max_length,
+    )
 
     def __init__(self, user, **kwargs):
         super().__init__(**kwargs)
 
         self._user = user
+
+    def clean(self):
+        super().clean()
+
+        start = self.cleaned_data['start']
+        end = self.cleaned_data.get('end', None)
+
+        if end is not None and start >= end:
+            self.add_error(
+                'start',
+                ValidationError(
+                    'Start time cannot be after end time.',
+                    code='start_after_end',
+                ),
+            )
+
+            # Render the time fields less ambiguously, (with the date),
+            # so the user sees where the issue has crept in.
+            self.data['start'] = self.fields['start'].strftime(start)
+            self.data['end'] = self.fields['end'].strftime(end)
+
+    def save(self):
+        # TODO: Implement.
+        print(self.cleaned_data)
 
 
 class FinishCurrentTaskForm(forms.Form):
