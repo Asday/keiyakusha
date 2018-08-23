@@ -23,27 +23,34 @@ class TimingView(LoginRequiredMixin, ListView):
         RequestConfig(self.request).configure(table)
         context['table'] = table
 
-        add_time_form_data = self.request.session.pop('add_time_form_data', {})
-        add_time_form = AddTimeForm(
-            user=self.request.user,
-            **add_time_form_data,
-        )
+        add_time_form = self.get_add_time_form()
         context['add_time_form'] = add_time_form
 
-        finish_current_task_form_data = self.request.session.pop(
-            'finish_current_task_form_data',
-            {},
-        )
-        finish_current_task_form = FinishCurrentTaskForm(
-            user=self.request.user,
-            **finish_current_task_form_data,
-        )
+        finish_current_task_form = self.get_finish_current_task_form()
         context['finish_current_task_form'] = finish_current_task_form
 
         return context
 
     def get_queryset(self):
         return self.model.objects.filter(engagement__user=self.request.user)
+
+    def get_add_time_form(self):
+        kwargs = {'user': self.request.user}
+        data = self.request.session.pop('add_time_form_data', None)
+
+        if data is not None:
+            kwargs['data'] = data
+
+        return AddTimeForm(**kwargs)
+
+    def get_finish_current_task_form(self):
+        kwargs = {'user': self.request.user}
+        data = self.request.session.pop('finish_current_task_form_data', None)
+
+        if data is not None:
+            kwargs['data'] = data
+
+        return FinishCurrentTaskForm(**kwargs)
 
     def get_uninvoiced_data(self):
         return self.object_list \
@@ -115,6 +122,7 @@ class AddTimeFormView(LoginRequiredMixin, SurrogateFormView):
         kwargs = super().get_form_kwargs()
 
         kwargs['user'] = self.request.user
+        kwargs['data'] = self.request.POST.copy()
 
         return kwargs
 
