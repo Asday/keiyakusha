@@ -80,6 +80,11 @@ class SurrogateFormView(FormView):
             if http_method_name != 'get'
         ]
 
+    def form_valid(self, form):
+        self.request.session.pop(self.session_key, None)
+
+        return super().form_valid(form)
+
     def form_invalid(self, form):
         self.request.session[self.get_session_key()] = {
             field_name: field_data
