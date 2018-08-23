@@ -1,5 +1,6 @@
 detox
 flake8
+freezegun
 pytest
 pytest-django
 pytest-pythonpath
