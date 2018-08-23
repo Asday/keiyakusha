@@ -74,7 +74,7 @@ class TimeEntryQuerySet(models.QuerySet):
         # TODO: Might not be the best place for getting week start.
         # TODO: Might not be the best place for getting last Monday.
         week_start_on_monday = True
-        if user is not None and user.profile is not None:
+        if user is not None:
             week_start_on_monday = user.profile.week_start_on_monday
 
         today = timezone.now().date()
