@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
+    'annoying',
     'django_tables2',
     'widget_tweaks',
 
