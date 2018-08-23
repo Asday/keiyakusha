@@ -57,7 +57,6 @@ class NiceDateTimeField(forms.fields.BaseTemporalField):
         # For example: if the current time is 1500, and the user inputs
         # 1600, the date should be guessed as yesterday.  If the user
         # inputs 1400, the date should be guessed as today.
-        parsed_time = parsed_datetime.time()
         now = timezone.localtime(timezone.now())
 
         candidate = now.replace(
