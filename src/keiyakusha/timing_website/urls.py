@@ -13,7 +13,7 @@ urlpatterns = [
     ),
     path(
         'add-time/',
-        AddTimeFormView,
+        AddTimeFormView.as_view(),
         name='add_time_form_view',
     ),
 ]
