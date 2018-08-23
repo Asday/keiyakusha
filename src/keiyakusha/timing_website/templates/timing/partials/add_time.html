@@ -1,9 +1,14 @@
-<form method="post" class="col">
+{# TODO: Make this not suck. #}
+
+<form action="{{ add_time_form.action }}" method="post" class="col">
   {% csrf_token %}
 
-  <p class="col">
-    TODO: Form.
-  </p>
+  {{ add_time_form.form_errors }}
+
+  {% for field in add_time_form %}
+    {{ field.errors }}
+    {{ field }}
+  {% endfor %}
 
   <button type="submit" name="add_time" class="btn btn-primary btn-block">
     Add Time
