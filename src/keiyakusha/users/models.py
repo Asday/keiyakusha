@@ -1,11 +1,13 @@
 from django.conf import settings
 from django.db import models
 
+from annoying.fields import AutoOneToOneField
+
 
 class UserProfile(models.Model):
     week_start_on_monday = models.BooleanField(default=True)
 
-    user = models.OneToOneField(
+    user = AutoOneToOneField(
         settings.AUTH_USER_MODEL,
         on_delete=models.CASCADE,
         related_name='profile',
