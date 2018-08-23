@@ -68,6 +68,9 @@ class TimingView(LoginRequiredMixin, ListView):
 
 class SurrogateFormView(FormView):
     session_key = None
+    blacklisted_fields = (
+        'csrfmiddlewaretoken',
+    )
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -78,7 +81,11 @@ class SurrogateFormView(FormView):
         ]
 
     def form_invalid(self, form):
-        self.request.session[self.get_session_key()] = form.data
+        self.request.session[self.get_session_key()] = {
+            field_name: field_data
+            for field_name, field_data in form.data.items()
+            if field_name not in self.blacklisted_fields
+        }
 
         return HttpResponseRedirect(self.get_success_url())
 
