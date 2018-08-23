@@ -4,10 +4,10 @@
     * [ ] Default start time is the end time of the last entry
       * [ ] Within reason?
     * [ ] Start time can be set to "now" with a button
-    * [ ] Times can be entered as a 4 digit number and interpreted sensibly
-      * [ ] Do what I _mean_ damnit
+    * [x] Times can be entered as a 4 digit number and interpreted sensibly
+      * [x] Do what I _mean_ damnit
   * [x] Can get the currently running time entry from the Manager
-  * [ ] Button to sign off the current time entry
+  * [x] Button to sign off the current time entry
   * [ ] Running totals shown
     * [x] Current invoice period
     * [x] Current week
