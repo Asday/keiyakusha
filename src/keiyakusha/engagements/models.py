@@ -1,5 +1,32 @@
 from django.conf import settings
 from django.db import models
+from django.utils import timezone
+
+
+class EngagementQuerySet(models.QuerySet):
+
+    def with_end(self):
+        end = models.F('start') + models.F('duration')
+        end.output_field = models.DateField()
+
+        return self.annotate(end=end)
+
+    def active_at(self, when):
+        return self \
+            .with_end() \
+            .filter(start__lte=when, end__gte=when)
+
+    def current(self):
+        return self.active_at(timezone.now())
+
+
+class EngagementManager(models.Manager.from_queryset(EngagementQuerySet)):
+
+    def current_for(self, user, client):
+        return self.get_queryset() \
+            .filter(user=user, client=client) \
+            .current() \
+            .get()
 
 
 class Engagement(models.Model):
@@ -20,6 +47,8 @@ class Engagement(models.Model):
         on_delete=models.CASCADE,
         related_name='engagements',
     )
+
+    objects = EngagementManager()
 
     def __str__(self):
         return (
