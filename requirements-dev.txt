@@ -1,4 +1,5 @@
 detox
+factory_boy
 flake8
 freezegun
 pytest
