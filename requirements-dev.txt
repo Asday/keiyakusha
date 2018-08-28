@@ -1,6 +1,6 @@
 detox
 factory_boy
-flake8
+-e git+https://gitlab.com/pycqa/flake8@9631dac5#egg=flake8
 freezegun
 pytest
 pytest-django
