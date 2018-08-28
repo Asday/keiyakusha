@@ -1,16 +1,30 @@
+{% load widget_tweaks %}
+
 {# TODO: Make this not suck. #}
 
 <form action="{{ add_time_form.action }}" method="post" class="col">
   {% csrf_token %}
 
-  {{ add_time_form.form_errors }}
+  <div class="row form-group">
+    <p class="text-danger">{{ add_time_form.form_errors }}</p>
 
-  {% for field in add_time_form %}
-    {{ field.errors }}
-    {{ field }}
-  {% endfor %}
+    {% for field in add_time_form %}
+      <fieldset class="col">
+        {% if field.errors %}
+          {% render_field field class+="form-control is-invalid" %}
+        {% else %}
+          {% render_field field class+="form-control" %}
+        {% endif %}
+        <div class="invalid-feedback">{{ field.errors }}</div>
+      </fieldset>
+    {% endfor %}
+  </div>
 
-  <button type="submit" name="add_time" class="btn btn-primary btn-block">
-    Add Time
-  </button>
+  <div class="row">
+    <div class="col">
+      <button type="submit" name="add_time" class="btn btn-primary btn-block">
+        Add Time
+      </button>
+    </div>
+  </div>
 </form>
