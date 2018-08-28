@@ -21,6 +21,9 @@ class NiceDateTimeField(forms.fields.BaseTemporalField):
         '%H%M%S',
         '%H%M%S.%f',
     )
+    default_error_messages = {
+        'invalid': 'Enter a valid time.',
+    }
     unambiguous_formats = {
         'microsecond': input_formats[2],
         'second': input_formats[1],
@@ -127,10 +130,10 @@ class AddTimeForm(forms.Form):
     def clean(self):
         super().clean()
 
-        start = self.cleaned_data['start']
+        start = self.cleaned_data.get('start', None)
         end = self.cleaned_data.get('end', None)
 
-        if end is not None and start >= end:
+        if start is not None and end is not None and start >= end:
             self.add_error(
                 'start',
                 ValidationError(
