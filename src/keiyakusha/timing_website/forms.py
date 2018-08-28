@@ -25,23 +25,6 @@ class NiceDateTimeField(forms.fields.BaseTemporalField):
         'minute': input_formats[0],
     }
 
-    @classmethod
-    def strftime(cls, value):
-        # TODO: Test.
-        if not isinstance(value, datetime.datetime):
-            raise ValueError('`value` must be a `datetime.datetime`')
-
-        for name, format_ in cls.unambiguous_formats.items():
-            # Haha dictionaries are ordered now!  :D
-            if getattr(value, name):
-                # If the value isn't zero, render at that resolution.
-                return value.strftime(format_)
-
-        # If even the minutes are zero, doesn't matter, we're gonna
-        # render them anyway.  The lowest resolution we'll render is
-        # `YY/MM/DD HHMM`.
-        return value.strftime(cls.unambiguous_formats['minute'])
-
     def strptime(self, value, format):
         parsed_datetime = timezone.make_aware(
             datetime.datetime.strptime(value, format),
@@ -72,6 +55,23 @@ class NiceDateTimeField(forms.fields.BaseTemporalField):
             candidate = candidate.astimezone(timezone.get_current_timezone())
 
         return candidate
+
+    @classmethod
+    def strftime(cls, value):
+        # TODO: Test.
+        if not isinstance(value, datetime.datetime):
+            raise ValueError('`value` must be a `datetime.datetime`')
+
+        for name, format_ in cls.unambiguous_formats.items():
+            # Haha dictionaries are ordered now!  :D
+            if getattr(value, name):
+                # If the value isn't zero, render at that resolution.
+                return value.strftime(format_)
+
+        # If even the minutes are zero, doesn't matter, we're gonna
+        # render them anyway.  The lowest resolution we'll render is
+        # `YY/MM/DD HHMM`.
+        return value.strftime(cls.unambiguous_formats['minute'])
 
 
 # This is going to be the big bad boy form for basically the entire
