@@ -119,6 +119,9 @@ class AddTimeForm(forms.Form):
     def __init__(self, user, **kwargs):
         super().__init__(**kwargs)
 
+        # TODO:  Put this in the template somehow.
+        self.fields['start'].widget.attrs['autofocus'] = 'autofocus'
+
         self._user = user
 
     def clean_client(self):
