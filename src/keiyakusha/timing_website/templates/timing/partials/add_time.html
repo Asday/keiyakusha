@@ -10,6 +10,7 @@
 
     {% for field in add_time_form %}
       <fieldset class="col">
+        {{ field.label_tag }}
         {% if field.errors %}
           {% render_field field class+="form-control is-invalid" %}
         {% else %}
