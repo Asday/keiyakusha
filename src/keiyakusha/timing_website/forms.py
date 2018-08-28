@@ -56,6 +56,15 @@ class NiceDateTimeField(forms.fields.BaseTemporalField):
 
         return candidate
 
+    def to_python(self, value):
+        if value in self.empty_values:
+            return None
+
+        if isinstance(value, datetime.datetime):
+            return value
+
+        return super().to_python(value)
+
     @classmethod
     def strftime(cls, value):
         # TODO: Test.
