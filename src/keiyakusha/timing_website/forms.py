@@ -90,6 +90,13 @@ class AddTimeForm(forms.Form):
 
     start = NiceDateTimeField()
     end = NiceDateTimeField(required=False)
+    # TODO: Improve these `CharField`s.
+    # They all take their `max_length` and `required` from the backing
+    # model field's `max_length` and `blank` respectively.  It'd read
+    # more nicely if they _directly_ referred to the model fields.
+    # `ModelForm` already does this, so it's worth glancing at that to
+    # see if there's a form field we could already be using instead, or
+    # if we should just quickly roll our own.
     task = forms.CharField(
         max_length=Task._meta.get_field('external_reference').max_length,
     )
