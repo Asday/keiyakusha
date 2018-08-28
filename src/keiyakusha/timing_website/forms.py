@@ -2,11 +2,13 @@ import datetime
 
 from django import forms
 from django.core.exceptions import ValidationError
+from django.db import transaction
 from django.urls import reverse_lazy
 from django.utils import timezone
 from django.utils.functional import cached_property
 
 from clients.models import Client, Project, Task
+from engagements.models import Engagement
 from timing.models import TimeEntry
 
 
@@ -116,6 +118,12 @@ class AddTimeForm(forms.Form):
 
         self._user = user
 
+    def clean_client(self):
+        # Make sure we can get an engagement for the client.
+        self.engagement_object
+
+        return self.cleaned_data['client']
+
     def clean(self):
         super().clean()
 
@@ -137,8 +145,70 @@ class AddTimeForm(forms.Form):
             self.data['end'] = self.fields['end'].strftime(end)
 
     def save(self):
-        # TODO: Implement.
-        print(self.cleaned_data)
+        return self.create_time_entry()
+
+    def create_time_entry(self):
+        project_name = self.cleaned_data['project']
+        task_name = self.cleaned_data['task']
+        note = self.cleaned_data.get('note', '')
+        time_start = self.cleaned_data['start'].astimezone(timezone.utc)
+        time_end = self.cleaned_data.get('end', None)
+
+        duration = None
+        if time_end is not None:
+            time_end = time_end.astimezone(timezone.utc)
+
+            duration = time_end - time_start
+
+        with transaction.atomic():
+            project, _created = Project.objects.get_or_create(
+                client=self.client_object,
+                name=project_name,
+            )
+            task, _created = Task.objects.get_or_create(
+                project=project,
+                external_reference=task_name,
+            )
+
+            time_entry = TimeEntry.objects.create(
+                start=time_start,
+                duration=duration,
+                note=note,
+                task=task,
+                engagement=self.engagement_object,
+            )
+
+        return time_entry
+
+    @cached_property
+    def engagement_object(self):
+        # TODO: Test.
+        try:
+            return Engagement.objects.current_for(
+                user=self._user,
+                client=self.client_object,
+            )
+
+        except Engagement.DoesNotExist as does_not_exist:
+            raise ValidationError(
+                'No active engagement found for %(client)s',
+                code='engagement_not_found',
+                params={'client': self.client_object},
+            ) from does_not_exist
+
+    @cached_property
+    def client_object(self):
+        # TODO: Test.
+        client_name = self.cleaned_data['client']
+        try:
+            return Client.objects.get(name=client_name)
+
+        except Client.DoesNotExist as does_not_exist:
+            raise ValidationError(
+                'Client %(name)s does not exist.',
+                code='client_not_found',
+                params={'name': client_name},
+            ) from does_not_exist
 
 
 class FinishCurrentTaskForm(forms.Form):
