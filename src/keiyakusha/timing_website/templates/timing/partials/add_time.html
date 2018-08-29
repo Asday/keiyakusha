@@ -11,11 +11,7 @@
     {% for field in add_time_form %}
       <fieldset class="col">
         {{ field.label_tag }}
-        {% if field.errors %}
-          {% render_field field class+="form-control is-invalid" %}
-        {% else %}
-          {% render_field field class+="form-control" %}
-        {% endif %}
+        {{ field|add_error_class:"is-invalid"|add_class:"form-control" }}
         <div class="invalid-feedback">{{ field.errors }}</div>
       </fieldset>
     {% endfor %}
