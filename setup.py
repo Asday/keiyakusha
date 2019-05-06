@@ -35,7 +35,7 @@ setup(
         'Programming Language :: Python :: Implementation :: CPython',
     ],
     install_requires=[
-        'django==2.1',
+        'django==2.2.1',
         'django-annoying==0.10.4',
         'django-widget-tweaks==1.4.2',
         'django_tables2==2.0.0a5',
