@@ -121,6 +121,9 @@ class AddTimeForm(forms.Form):
 
         # TODO:  Put this in the template somehow.
         self.fields['start'].widget.attrs['autofocus'] = 'autofocus'
+        self.fields['task'].widget.attrs['list'] = 'task_list'
+        self.fields['project'].widget.attrs['list'] = 'project_list'
+        self.fields['client'].widget.attrs['list'] = 'client_list'
 
         self._user = user
 
@@ -214,6 +217,22 @@ class AddTimeForm(forms.Form):
                 code='client_not_found',
                 params={'name': client_name},
             ) from does_not_exist
+
+    @cached_property
+    def user_engagements(self):
+        return Engagement.objects.current_for(user=self._user)
+
+    @cached_property
+    def user_clients(self):
+        return Client.objects.filter(pk__in=self.user_engagements.values('pk'))
+
+    @cached_property
+    def user_projects(self):
+        return Project.objects.filter(client__in=self.user_clients)
+
+    @cached_property
+    def user_tasks(self):
+        return Task.objects.filter(project__in=self.user_projects)
 
 
 class FinishCurrentTaskForm(forms.Form):

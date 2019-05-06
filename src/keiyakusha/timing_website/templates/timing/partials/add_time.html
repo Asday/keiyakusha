@@ -22,4 +22,23 @@
       </button>
     </div>
   </div>
+
+  {# TODO: Filter these progressively.  js required.  :(  #}
+  <datalist id="task_list">
+    {% for task in form.user_tasks %}
+      <option value="{{ task.external_reference }}" />
+    {% endfor %}
+  </datalist>
+
+  <datalist id="project_list">
+    {% for project in form.user_projects %}
+      <option value="{{ project.name }}" />
+    {% endfor %}
+  </datalist>
+
+  <datalist id="client_list">
+    {% for client in form.user_clients %}
+      <option value="{{ client.name }}" />
+    {% endfor %}
+  </datalist>
 </form>
