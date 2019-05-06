@@ -10,7 +10,11 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/2.1/ref/settings/
 """
 
+import json
 import os
+
+from django.core.exceptions import ImproperlyConfigured
+
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -23,10 +27,23 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', 'kick me')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = json.loads(os.environ.get('DJANGO_DEBUG', 'false'))
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = json.loads(os.environ.get('DJANGO_ALLOWED_HOSTS', '["*"]'))
 
+if not DEBUG:
+    if SECRET_KEY == 'kick me':
+        raise ImproperlyConfigured(
+            'You must set `DJANGO_SECRET_KEY` outside of debug'
+            ' environments.'
+        )
+
+    if '*' in ALLOWED_HOSTS:
+        raise ImproperlyConfigured(
+            'You must set `DJANGO_ALLOWED_HOSTS` to some json-encoded'
+            ' array not containing `"*"` outside of debug'
+            ' environments.'
+        )
 
 # Application definition
 
