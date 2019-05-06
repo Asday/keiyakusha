@@ -190,10 +190,9 @@ class AddTimeForm(forms.Form):
     def engagement_object(self):
         # TODO: Test.
         try:
-            return Engagement.objects.current_for(
-                user=self._user,
-                client=self.client_object,
-            )
+            return Engagement.objects \
+                .current_for(user=self._user, client=self.client_object) \
+                .get()
 
         except Engagement.DoesNotExist as does_not_exist:
             raise ValidationError(

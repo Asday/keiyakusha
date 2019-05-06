@@ -22,11 +22,23 @@ class EngagementQuerySet(models.QuerySet):
 
 class EngagementManager(models.Manager.from_queryset(EngagementQuerySet)):
 
-    def current_for(self, user, client):
+    def current_for(self, user=None, client=None):
+        filter_kwargs = {}
+
+        if user is not None:
+            filter_kwargs['user'] = user
+
+        if client is not None:
+            filter_kwargs['client'] = client
+
+        if not filter_kwargs:
+            raise ValueError(
+                'You must supply at least one of (`user`, `client`)',
+            )
+
         return self.get_queryset() \
-            .filter(user=user, client=client) \
-            .current() \
-            .get()
+            .filter(**filter_kwargs) \
+            .current()
 
 
 class Engagement(models.Model):
