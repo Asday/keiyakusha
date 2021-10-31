@@ -93,7 +93,7 @@ class NiceDateTimeField(forms.fields.BaseTemporalField):
 class AddTimeForm(forms.Form):
     action = reverse_lazy('timing_website:add_time_form_view')
 
-    start = NiceDateTimeField()
+    start = NiceDateTimeField(required=False)
     end = NiceDateTimeField(required=False)
     # TODO: Improve these `CharField`s.
     # They all take their `max_length` and `required` from the backing
@@ -121,6 +121,7 @@ class AddTimeForm(forms.Form):
 
         # TODO:  Put this in the template somehow.
         self.fields['start'].widget.attrs['autofocus'] = 'autofocus'
+        self.fields['start'].widget.attrs['placeholder'] = 'defaults to now'
         self.fields['task'].widget.attrs['list'] = 'task_list'
         self.fields['project'].widget.attrs['list'] = 'project_list'
         self.fields['client'].widget.attrs['list'] = 'client_list'
@@ -132,6 +133,11 @@ class AddTimeForm(forms.Form):
         self.engagement_object
 
         return self.cleaned_data['client']
+
+    def clean_start(self):
+        start = self.cleaned_data['start']
+
+        return start if start is not None else timezone.now()
 
     def clean(self):
         super().clean()
