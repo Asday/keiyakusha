@@ -1,6 +1,7 @@
 from django_tables2 import Column, Table
 
 from timing.models import TimeEntry
+from website.columns import DurationColumn
 
 
 class TimeEntryTable(Table):
@@ -9,6 +10,7 @@ class TimeEntryTable(Table):
         'task__project__name',
         'task__external_reference',
     ))
+    duration = DurationColumn()
 
     class Meta:
         # TODO: May be better to have this in settings?

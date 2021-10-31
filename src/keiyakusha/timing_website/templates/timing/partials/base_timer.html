@@ -1,3 +1,5 @@
+{% load website_tags %}
+
 <section
   class="card {% block extra_classes %}{% endblock %}"
   style="height: 100%;" {# Seems gross? #}
@@ -6,7 +8,7 @@
   <section class="card-body">
     {% block timer_body %}
       {% if data.duration %}
-        <h3 class="card-title">{{ data.duration }}</h3>
+        <h3 class="card-title">{{ data.duration|duration }}</h3>
 
         <p>{{ data.render_totals }}</p>
       {% else %}
