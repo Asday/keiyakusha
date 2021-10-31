@@ -102,18 +102,18 @@ class AddTimeForm(forms.Form):
     # `ModelForm` already does this, so it's worth glancing at that to
     # see if there's a form field we could already be using instead, or
     # if we should just quickly roll our own.
+    client = forms.CharField(
+        max_length=Client._meta.get_field('name').max_length,
+    )
+    project = forms.CharField(
+        max_length=Project._meta.get_field('name').max_length,
+    )
     task = forms.CharField(
         max_length=Task._meta.get_field('external_reference').max_length,
     )
     note = forms.CharField(
         max_length=TimeEntry._meta.get_field('note').max_length,
         required=False,
-    )
-    project = forms.CharField(
-        max_length=Project._meta.get_field('name').max_length,
-    )
-    client = forms.CharField(
-        max_length=Client._meta.get_field('name').max_length,
     )
 
     def __init__(self, user, **kwargs):
