@@ -63,6 +63,7 @@ class Engagement(models.Model):
     objects = EngagementManager()
 
     def __str__(self):
+        # TODO: Remove lookups from string methods.
         return (
             f'{self.user.get_full_name()} with {self.client} from'
             f' {self.start} until {self.duration + self.start} at'

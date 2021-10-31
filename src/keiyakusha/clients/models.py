@@ -14,6 +14,7 @@ class Task(models.Model):
         unique_together = ('external_reference', 'project')
 
     def __str__(self):
+        # TODO: Remove lookups from string methods.
         return f'{self.project} - {self.external_reference}'
 
 
@@ -30,6 +31,7 @@ class Project(models.Model):
         unique_together = ('name', 'client')
 
     def __str__(self):
+        # TODO: Remove lookups from string methods.
         return f'{self.client} - {self.name}'
 
 

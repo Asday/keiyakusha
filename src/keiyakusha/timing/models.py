@@ -160,6 +160,7 @@ class TimeEntry(models.Model):
         verbose_name_plural = 'time entries'
 
     def __str__(self):
+        # TODO: Remove lookups from string methods.
         return f'{self.duration} on {self.task} {self.rendered_note}'
 
     @property

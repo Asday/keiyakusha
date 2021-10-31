@@ -19,6 +19,7 @@ class Payment(models.Model):
     )
 
     def __str__(self):
+        # TODO: Remove lookups from string methods.
         return f'{self.currency} {self.amount} on {self.date}'
 
     @cached_property
@@ -59,4 +60,5 @@ class Invoice(models.Model):
     )
 
     def __str__(self):
+        # TODO: Remove lookups from string methods.
         return f'Issued to {self.client} on {self.date_issued}'

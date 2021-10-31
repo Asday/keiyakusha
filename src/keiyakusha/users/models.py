@@ -20,4 +20,5 @@ class UserProfile(models.Model):
     )
 
     def __str__(self):
+        # TODO: Remove lookups from string methods.
         return str(self.user)
