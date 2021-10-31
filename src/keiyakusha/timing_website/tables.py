@@ -1,4 +1,4 @@
-from django_tables2 import Column, Table
+from django_tables2 import Column, DateTimeColumn, Table
 
 from timing.models import TimeEntry
 from website.columns import DurationColumn
@@ -10,6 +10,9 @@ class TimeEntryTable(Table):
         'task__project__name',
         'task__external_reference',
     ))
+    start_date = DateTimeColumn(format='Y-m-d (l)', accessor='start')
+    start_time = DateTimeColumn(format='H:i', accessor='start')
+    end_time = DateTimeColumn(format='H:i', accessor='end')
     duration = DurationColumn()
 
     class Meta:
