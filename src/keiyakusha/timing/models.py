@@ -63,6 +63,12 @@ class Total(object):
 
 class TimeEntryQuerySet(models.QuerySet):
 
+    def with_end(self):
+        return self.annotate(end=models.ExpressionWrapper(
+            models.F('start') + models.F('duration'),
+            output_field=models.DateTimeField(),
+        ))
+
     def uninvoiced(self):
         return self.filter(invoice=None)
 

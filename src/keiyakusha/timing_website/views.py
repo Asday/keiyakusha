@@ -36,6 +36,7 @@ class TimingView(LoginRequiredMixin, ListView):
             self.model.objects
             .filter(engagement__user=self.request.user)
             .order_by('-start')
+            .with_end()
         )
 
     def get_add_time_form(self):
