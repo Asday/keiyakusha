@@ -3,19 +3,17 @@
 {% block title %}Timing - {{ block.super }}{% endblock %}
 
 {% block content %}
-  <article class="container">
-    <h1>Timing</h1>
+  <h1>Timing</h1>
 
-    <section class="row mb-3">
-      {% include 'timing/partials/current_timers.html' %}
-    </section>
+  <section class="row mb-3">
+    {% include 'timing/partials/current_timers.html' %}
+  </section>
 
-    <section class="row mb-3">
-      {% include 'timing/partials/add_time.html' %}
-    </section>
+  <section class="row mb-3">
+    {% include 'timing/partials/add_time.html' %}
+  </section>
 
-    <section class="row">
-      {% include 'timing/partials/time_list.html' %}
-    </section>
-  </article>
+  <section class="row">
+    {% include 'timing/partials/time_list.html' %}
+  </section>
 {% endblock %}
