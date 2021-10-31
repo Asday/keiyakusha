@@ -19,7 +19,7 @@ class TimingView(LoginRequiredMixin, ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
 
-        table = TimeEntryTable(self.object_list.order_by('-start'))
+        table = TimeEntryTable(self.object_list)
         RequestConfig(self.request).configure(table)
         context['table'] = table
 
@@ -32,7 +32,11 @@ class TimingView(LoginRequiredMixin, ListView):
         return context
 
     def get_queryset(self):
-        return self.model.objects.filter(engagement__user=self.request.user)
+        return (
+            self.model.objects
+            .filter(engagement__user=self.request.user)
+            .order_by('-start')
+        )
 
     def get_add_time_form(self):
         kwargs = {'user': self.request.user}
