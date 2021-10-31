@@ -1,3 +1,5 @@
+{% load tz %}
+
 <!doctype html>
 <html lang="{{ LANGUAGE_CODE }}">
 <head>
@@ -14,6 +16,7 @@
 <body>
   <article class="container">
     {% block content %}{% endblock %}
+    <footer>{% get_current_timezone as timezone%}{{ timezone }}</footer>
   </article>
 </body>
 </html>
