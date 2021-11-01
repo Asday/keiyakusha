@@ -1,13 +1,28 @@
-version: '3'
+version: '3.8'
 
 services:
-  db:
-    image: postgres:11-alpine
+  django:
+    build:
+      context: docker/python
+    volumes:
+      - ./src/keiyakusha:/src
+    stdin_open: true
+    tty: true
     environment:
-      POSTGRES_PASSWORD: ''
+      DJANGO_DEBUG: "true"
+      DJANGO_ALLOWED_HOSTS: '["0.0.0.0"]'
+    command: |
+      sh -c "./manage.py wait_for_db && ./manage.py runserver 0.0.0.0:34763"
+    ports:
+      - 34763:34763
+
+  db:
+    image: postgres:14-alpine
+    environment:
+      POSTGRES_PASSWORD: 'keiyakusha_password'
       POSTGRES_USER: 'keiyakusha'
       POSTGRES_DB: 'keiyakusha_db'
     ports:
       - '41881:5432'
     volumes:
-      - ./pgdata:/var/lib/postgresql/data
+      - ./docker/db/pgdata:/var/lib/postgresql/data

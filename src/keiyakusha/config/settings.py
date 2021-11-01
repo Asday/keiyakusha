@@ -107,9 +107,9 @@ DATABASES = {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': os.environ.get('DJANGO_DB_NAME', 'keiyakusha_db'),
         'USER': os.environ.get('DJANGO_DB_USER', 'keiyakusha'),
-        'PASSWORD': os.environ.get('DJANGO_DB_PASS', ''),
-        'HOST': os.environ.get('DJANGO_DB_HOST', '127.0.0.1'),
-        'PORT': os.environ.get('DJANGO_DB_PORT', '41881'),
+        'PASSWORD': os.environ.get('DJANGO_DB_PASS', 'keiyakusha_password'),
+        'HOST': os.environ.get('DJANGO_DB_HOST', 'db'),
+        'PORT': os.environ.get('DJANGO_DB_PORT', ''),
         'TEST': {
             'NAME': os.environ.get('DJANGO_DB_NAME', 'keiyakusha') + '_test',
         },
