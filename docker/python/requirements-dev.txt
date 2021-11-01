@@ -1,5 +1,5 @@
 factory_boy
--e git+https://gitlab.com/pycqa/flake8@9631dac5#egg=flake8
+flake8
 freezegun
 pytest
 pytest-django
