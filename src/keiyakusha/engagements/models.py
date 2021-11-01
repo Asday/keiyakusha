@@ -6,10 +6,10 @@ from django.utils import timezone
 class EngagementQuerySet(models.QuerySet):
 
     def with_end(self):
-        end = models.F('start') + models.F('duration')
-        end.output_field = models.DateField()
-
-        return self.annotate(end=end)
+        return self.annotate(end=models.ExpressionWrapper(
+            models.F('start') + models.F('duration'),
+            output_field=models.DateField(),
+        ))
 
     def active_at(self, when):
         return self \

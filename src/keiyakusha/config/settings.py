@@ -169,3 +169,5 @@ STATIC_URL = '/static/'
 
 # Generic authorisation
 LOGIN_REDIRECT_URL = '/'
+
+DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
