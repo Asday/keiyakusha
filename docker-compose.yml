@@ -6,6 +6,7 @@ services:
       context: docker/python
     volumes:
       - ./src/keiyakusha:/src
+      - ./tests:/tests
     stdin_open: true
     tty: true
     environment:

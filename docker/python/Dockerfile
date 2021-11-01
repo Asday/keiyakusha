@@ -5,6 +5,7 @@ ENV PYTHONUNBUFFERED 1
 
 RUN <<eof
     mkdir /src &&
+    mkdir /tests &&
     mkdir /requirements &&
     mkdir -p /root/.cache/pip &&
     adduser --disabled-password --gecos '' keiyakusha
